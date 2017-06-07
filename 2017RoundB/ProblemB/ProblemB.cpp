@@ -1,6 +1,6 @@
 using namespace std;
 #include <iostream>
-#include <fstream>
+#include <cstdio>
 #include <vector>
 #include <math.h>
 #include <algorithm>
@@ -14,7 +14,7 @@ bool sort_Y(vector<float> a, vector<float> b) {
 float center(vector<vector<float>> &nums) {
 	int n = nums.size();
 	//transfer to manhaton distance
-	for (int i = 0; i < n;i++) {
+	for (int i = 0; i < n; i++) {
 		float x = nums[i][0], y = nums[i][1];
 		nums[i][0] = x + y;
 		nums[i][1] = x - y;
@@ -58,17 +58,16 @@ float center(vector<vector<float>> &nums) {
 	return res / 2;
 }
 int main() {
-	ifstream fin("B-small-practice.in");
-	FILE* fout = fopen("B-small-practice.out","w+");
-	int T;
-	fin>>T;
+	freopen("B-large-practice.in", "r", stdin);
+	freopen("B-large-practice.out", "w", stdout);
+	int T; 	scanf("%d", &T);
 	for (int j = 1; j <= T; j++) {
-		int N;
-		fin>>N;
+		int N; scanf("%d", &N);
 		vector<vector<float>> nums(N, vector<float>(3, 0.0));
 		for (int i = 0; i<N; i++)
-			fin>>nums[i][0]>>nums[i][1]>>nums[i][2];
-		fprintf(fout,"Case #%d: %2.1f\n", j, center(nums));
+			scanf("%f %f %f",&nums[i][0],&nums[i][1],&nums[i][2]);
+		double cc = center(nums);
+		printf("Case #%d: %2.1f\n", j, cc);
 	}
 	return 0;
 }
