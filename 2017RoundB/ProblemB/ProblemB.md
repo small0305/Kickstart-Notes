@@ -5,7 +5,7 @@ There are N weighted points in a plane. Point i is at (Xi, Yi) and has weight Wi
 
 In this problem, we need to find a special center of these points. The center is a point (X, Y) such that the sum of max(|X-Xi|, |Y-Yi|)*Wi is minimum.
 
-给N个质点的位置及其质量，求一个点使得所有点到它的max(|X-Xi|, |Y-Yi|)*Wi和最小。
+给N个质点的位置及其质量，求一个点使得所有点到它的$max(|X-Xi|, |Y-Yi|)*W_i$和最小。
 
 本质是求一个到所有点加权切比雪夫距离最小的点。本题模拟的是一种仓库中找到最佳仓库位置的问题。
 
@@ -29,10 +29,10 @@ In this problem, we need to find a special center of these points. The center is
 
 对这个位置计算SUM((|X-Xi|+|Y-Yi|))，并将结果/2得到最终结果。
 
-参考(http://www.it610.com/article/1700126.htm)(http://m.2cto.com/kf/201501/373178.html)
+参考(http://www.it610.com/article/1700126.htm) (http://m.2cto.com/kf/201501/373178.html)
 
 代码：
-```
+```c++
 using namespace std;
 #include <iostream>
 #include <cstdio>
