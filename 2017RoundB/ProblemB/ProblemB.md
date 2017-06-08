@@ -5,7 +5,7 @@ There are N weighted points in a plane. Point i is at (Xi, Yi) and has weight Wi
 
 In this problem, we need to find a special center of these points. The center is a point (X, Y) such that the sum of max(|X-Xi|, |Y-Yi|)*Wi is minimum.
 
-给N个质点的位置及其质量，求一个点使得所有点到它的max(|X-Xi|, |Y-Yi|)*Wi和最小。
+给N个质点的位置及其质量，求一个点使得所有点到它的$max(|X-Xi|, |Y-Yi|)*W_i$和最小。
 
 本质是求一个到所有点加权切比雪夫距离最小的点。本题模拟的是一种仓库中找到最佳仓库位置的问题。
 
@@ -29,10 +29,12 @@ In this problem, we need to find a special center of these points. The center is
 
 对这个位置计算SUM((|X-Xi|+|Y-Yi|))，并将结果/2得到最终结果。
 
-参考(http://www.it610.com/article/1700126.htm)(http://m.2cto.com/kf/201501/373178.html)
+参考(http://www.it610.com/article/1700126.htm) (http://m.2cto.com/kf/201501/373178.html)
+
+第一次提交运算结果时候结果不对，发现是float精度太低，遂改为double。
 
 代码：
-```
+```c++
 using namespace std;
 #include <iostream>
 #include <cstdio>
@@ -46,18 +48,18 @@ bool sort_X(vector<float> a, vector<float> b) {
 bool sort_Y(vector<float> a, vector<float> b) {
 	return a[1]<b[1];
 }
-float center(vector<vector<float>> &nums) {
+double center(vector<vector<float>> &nums) {
 	int n = nums.size();
 	//transfer to manhaton distance
 	for (int i = 0; i < n; i++) {
-		float x = nums[i][0], y = nums[i][1];
+		double x = nums[i][0], y = nums[i][1];
 		nums[i][0] = x + y;
 		nums[i][1] = x - y;
 	}
 	//calculate x
 	sort(nums.begin(), nums.end(), sort_X);
 	int start = 0, end = n - 1;
-	float left = nums[start][2], right = nums[end][2];
+	double left = nums[start][2], right = nums[end][2];
 	while (start<end) {
 		if (left<right) {
 			start++;
@@ -84,7 +86,7 @@ float center(vector<vector<float>> &nums) {
 		}
 	}
 	float Y = nums[start][1];
-	float res = 0;
+	double res = 0;
 	for (int i = 0; i < n; i++) {
 		float x = nums[i][0], y = nums[i][1], w = nums[i][2];
 		res += (abs(x - X) + abs(y - Y))*w;
@@ -105,5 +107,61 @@ int main() {
 		printf("Case #%d: %2.1f\n", j, cc);
 	}
 	return 0;
+}
+
+```
+
+然后看了别人的代码，发现别人都是用一维搜索暴力做的。= =人和人之间的差距啊。
+
+```c++
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+
+const int NMAX = 10000;
+double X[NMAX], Y[NMAX], W[NMAX];
+int N;
+
+double go(double x, double y){
+	double ret = 0;
+	for (int i = 0; i < N; i++)
+		ret += max(abs(X[i] - x), abs(Y[i] - y))*W[i];
+	return ret;
+}
+
+double ternary_search(double x){
+	double lo = -1000, hi = 1000;
+	for (int i = 0; i < 100; i++){
+		double m1 = (2 * lo + hi) / 3;
+		double m2 = (lo + 2 * hi) / 3;
+		double L = go(x, m1), R = go(x, m2);
+		if (L <= R) hi = m2;
+		else lo = m1;
+	}
+	return go(x, lo);
+}
+
+double process(){
+	double lo = -1000, hi = 1000;
+	for (int i = 0; i < 100; i++){
+		double m1 = (2 * lo + hi) / 3;
+		double m2 = (lo + 2 * hi) / 3;
+		double L = ternary_search(m1), R = ternary_search(m2);
+		if (L <= R) hi = m2;
+		else lo = m1;
+	}
+	return ternary_search(lo);
+}
+
+int main(){
+	freopen("large.in", "r", stdin);
+	freopen("large.out", "w", stdout);
+
+	int T; scanf("%d", &T);
+	for (int tc = 1; tc <= T; tc++){
+		scanf("%d", &N);
+		for (int i = 0; i < N; i++) scanf("%lf%lf%lf", X + i, Y + i, W + i);
+		printf("Case #%d: %.10f\n", tc, process());
+	}
 }
 ```

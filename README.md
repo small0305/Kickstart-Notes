@@ -1,3 +1,5 @@
+# Kickstart-Notes
+
 主要记录google Kickstart 历年题目解题过程思路及代码。
 
 [Google Kickstart 往年题目](https://code.google.com/codejam/past-contests#kickstart)

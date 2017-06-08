@@ -29,12 +29,12 @@
 看题目应该可以推测出本题实现的是一种编码方式，所以应该会有对应的解码方式，因此计算过程不可能是硬算的，而是按位对应的。
 
 在求解large-problem的过程中，会出现溢出情况。因此在这一步需要在`long long `下计算：
-```
+```C++
 ans += (long long)pow(i)*(long long)(nums[i] - nums[n-i-1])%MOD
 ```
 
 最终代码：
-```
+```C++
 using namespace std;
 #include <iostream>
 #include <vector>
