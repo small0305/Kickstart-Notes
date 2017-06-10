@@ -85,7 +85,7 @@ int solve(vector<vector<char>> &c, int N, int M, int K) {
 						}
 						break;
 					}
-					if (sums[i - h][j - h + 1][k - 1] == 0) continue;
+					if (k-1&&sums[i - h][j - h + 1][k - 1] == 0) continue;
 					int now_value = sums[i - h][j - h + 1][k - 1] + h*h;
 					
 					for (int l = 0; l<2 * h - 1; l++) {
@@ -97,11 +97,10 @@ int solve(vector<vector<char>> &c, int N, int M, int K) {
 		}
 	}
 	return max_value;
-
 }
 int main() {
 	freopen("C-large-practice.in", "r", stdin);
-	//freopen("C-large-practice.out", "w", stdout);
+	freopen("C-large-practice.out", "w", stdout);
 	int T; 	scanf("%d", &T);
 	for (int k = 1; k <= T; k++) {
 		int N, M, K;
@@ -116,6 +115,7 @@ int main() {
 		int cc = solve(c, N, M, K);//46
 		printf("Case #%d: %d\n", k, cc);
 	}
+	
 	return 0;
 }
 ```
